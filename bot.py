@@ -140,7 +140,8 @@ def echo_all(message):
 		bot.reply_to(message, "🏠", reply_markup=markup_00)
 
 	if message.text == "IEEE":
-		bot.send_video(chat_id=message.chat.id, video=introduction_video_url, caption=ieee_text)
+		bot.send_video(chat_id=message.chat.id, video=introduction_video_url)
+		bot.send_message(message.chat.id, ieee_text)
 		
 	if message.text == "رویدادها 🗓️":
 		bot.reply_to(message, event_text, reply_markup=markup_02)
