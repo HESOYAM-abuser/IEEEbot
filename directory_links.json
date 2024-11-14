@@ -1,0 +1,29 @@
+{
+    "root": {
+      "calendar.jpg": "https://cnuh.storage.iran.liara.space/ieee-bot/calendar.jpg",
+      "course_chart.pdf": "https://cnuh.storage.iran.liara.space/ieee-bot/course_chart.pdf",
+      "faculty_map.pdf": "https://cnuh.storage.iran.liara.space/ieee-bot/faculty_map.pdf",
+      "introduction_video.mp4": "https://cnuh.storage.iran.liara.space/ieee-bot/introduction_video.mp4",
+      "university_map.jpg": "https://cnuh.storage.iran.liara.space/ieee-bot/university_map.jpg"
+    },
+    "portal": {
+      "educational": {
+        "class_schedule.mp4": "https://cnuh.storage.iran.liara.space/ieee-bot/portal/educational/class_schedule.mp4",
+        "educational_requests.mp4": "https://cnuh.storage.iran.liara.space/ieee-bot/portal/educational/educational_requests.mp4",
+        "exam_schedule.mp4": "https://cnuh.storage.iran.liara.space/ieee-bot/portal/educational/exam_schedule.mp4",
+        "teacher_evaluation.mp4": "https://cnuh.storage.iran.liara.space/ieee-bot/portal/educational/teacher_evaluation.mp4"
+      },
+      "financial_support": {
+        "online_payment.mp4": "https://cnuh.storage.iran.liara.space/ieee-bot/portal/financial_support/online_payment.mp4",
+        "portal_password.mp4": "https://cnuh.storage.iran.liara.space/ieee-bot/portal/financial_support/portal_password.mp4"
+      },
+      "research": {
+        "book_loan.mp4": "https://cnuh.storage.iran.liara.space/ieee-bot/portal/research/book_loan.mp4"
+      },
+      "student_affairs": {
+        "meal_reservation.mp4": "https://cnuh.storage.iran.liara.space/ieee-bot/portal/student_affairs/meal_reservation.mp4",
+        "sports_services.mp4": "https://cnuh.storage.iran.liara.space/ieee-bot/portal/student_affairs/sports_services.mp4"
+      }
+    }
+  }
+  
