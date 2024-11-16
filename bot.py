@@ -156,13 +156,13 @@ def echo_all(message):
 		bot.reply_to(message, ertebat_ba_aza_text)
 	
 	if message.text == "رویداد های برگزار شده 📅":
-		bot.reply_to(message, "under construction")
+		bot.reply_to(message, ".به زودی تکمیل خواهد شد ")
 
 	if message.text == "رویداد های جاری 🔄":
-		bot.reply_to(message, "under construction")
+		bot.reply_to(message, ".به زودی تکمیل خواهد شد")
 
 	if message.text == "آموزش پرتال 📖":
-		bot.reply_to(message, "choose one the options", reply_markup=markup_05)
+		bot.reply_to(message, "گزیه مورد نظر خود را انتخاب کنید", reply_markup=markup_05)
 
 	if message.text == "چارت درسی 🗂️":
 		bot.send_document(chat_id=message.chat.id, document=course_chart_url)
