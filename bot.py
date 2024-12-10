@@ -180,23 +180,23 @@ def echo_all(message):
 		bot.reply_to(message, kanal_haye_mohem_text)
 
 	if message.text == "آموزشی 📚":
-    bot.send_video(chat_id=message.chat.id, video=class_schedule_url, caption="برنامه کلاسی 🗓️, حذف و اضافه ➖➕, دروس ارائه شده ترم 📘, حضور و غیاب 👥")
-    bot.send_video(chat_id=message.chat.id, video=exam_schedule_url, caption="برنامه امتحانی 📝, اطلاعیه نمرات 🏆, تاییدیه ✅")
-    bot.send_video(chat_id=message.chat.id, video=teacher_evaluation_url, caption="ارزشیابی اساتید 👩‍🏫")
+		bot.send_video(chat_id=message.chat.id, video=class_schedule_url, caption="برنامه کلاسی 🗓️, حذف و اضافه ➖➕, دروس ارائه شده ترم 📘, حضور و غیاب 👥")
+		bot.send_video(chat_id=message.chat.id, video=exam_schedule_url, caption="برنامه امتحانی 📝, اطلاعیه نمرات 🏆, تاییدیه ✅")
+		bot.send_video(chat_id=message.chat.id, video=teacher_evaluation_url, caption="ارزشیابی اساتید 👩‍🏫")
 
 	if message.text == "پژوهشی 🔬":
-    bot.send_video(chat_id=message.chat.id, video=book_loan_url, caption="امانت و تمدید و رزرو 📚🔄")
+		bot.send_video(chat_id=message.chat.id, video=book_loan_url, caption="امانت و تمدید و رزرو 📚🔄")
 
 	if message.text == "دانشجویی 🧑‍🎓":
-    bot.send_video(chat_id=message.chat.id, video=meal_reservation_url, caption="امور تغذیه 🍽️")
-    bot.send_video(chat_id=message.chat.id, video=sports_services_url, caption="خدمات ورزشی 🏅")
+		bot.send_video(chat_id=message.chat.id, video=meal_reservation_url, caption="امور تغذیه 🍽️")
+		bot.send_video(chat_id=message.chat.id, video=sports_services_url, caption="خدمات ورزشی 🏅")
 
 	if message.text == "مالی و پشتیبانی 💵":
-    bot.send_video(chat_id=message.chat.id, video=online_payment_url, caption="نحوه پرداخت الکترونیکی 💳")
-    bot.send_video(chat_id=message.chat.id, video=portal_password_url, caption="رمز اینترنت و پرتال 🔐")
+		bot.send_video(chat_id=message.chat.id, video=online_payment_url, caption="نحوه پرداخت الکترونیکی 💳")
+		bot.send_video(chat_id=message.chat.id, video=portal_password_url, caption="رمز اینترنت و پرتال 🔐")
 
 	if message.text == "سایر موارد 🌐":
-    bot.reply_to(message, "به زودی تکمیل می‌شود ⏳")
+		bot.reply_to(message, "به زودی تکمیل می‌شود ⏳")
 
 		
 	if message.text == "انتقادات و پیشنهادات 💬":
