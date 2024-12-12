@@ -6,6 +6,9 @@ from re import findall
 from dotenv import load_dotenv
 import os
 import json
+import telebot.apihelper
+import socks
+import socket
 #====================================== 
 load_dotenv()
 
@@ -14,6 +17,24 @@ TOKEN = api_token # Telegram token
 bot = telebot.TeleBot(TOKEN, parse_mode=None) 
 
 admins_id_list = os.getenv("ADMIN_IDS").split(",")
+
+proxy_url = os.getenv("PROXY_URL")
+
+if proxy_url:
+    if proxy_url.startswith("socks5://"):
+        proxy_host, proxy_port = proxy_url[len("socks5://"):].split(":")
+        proxy_port = int(proxy_port)
+
+        # Set up the proxy
+        socks.set_default_proxy(socks.SOCKS5, proxy_host, proxy_port)
+        socket.socket = socks.socksocket  # Patch the socket module
+    else:
+        raise ValueError("Unsupported proxy scheme. Use 'socks5://host:port'.")
+
+telebot.apihelper.proxy = {
+    "https": proxy_url,  
+    "http": proxy_url    
+}
 #======================================
 f = open("texts/suggestion_01.txt", "rb")
 suggestion_01 = f.read()
