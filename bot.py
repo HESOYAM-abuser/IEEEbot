@@ -177,13 +177,13 @@ def echo_all(message):
 		bot.reply_to(message, ertebat_ba_aza_text)
 	
 	if message.text == "رویداد های برگزار شده 📅":
-		bot.reply_to(message, "under construction")
+		bot.reply_to(message, ".به زودی تکمیل خواهد شد ")
 
 	if message.text == "رویداد های جاری 🔄":
-		bot.reply_to(message, "under construction")
+		bot.reply_to(message, ".به زودی تکمیل خواهد شد")
 
 	if message.text == "آموزش پرتال 📖":
-		bot.reply_to(message, "choose one the options", reply_markup=markup_05)
+		bot.reply_to(message, "گزیه مورد نظر خود را انتخاب کنید", reply_markup=markup_05)
 
 	if message.text == "چارت درسی 🗂️":
 		bot.send_document(chat_id=message.chat.id, document=course_chart_url)
@@ -201,25 +201,24 @@ def echo_all(message):
 		bot.reply_to(message, kanal_haye_mohem_text)
 
 	if message.text == "آموزشی 📚":
-		bot.send_video(chat_id=message.chat.id, video=class_schedule_url, caption="Educational 1")
-		bot.send_video(chat_id=message.chat.id, video=exam_schedule_url, caption="Educational 2")
-		bot.send_video(chat_id=message.chat.id, video=teacher_evaluation_url, caption="Educational 3")
-		#bot.send_document(chat_id=message.chat.id, document=educational_requests_url, caption="Educational 4")
-		#print(educational_requests_url)
+		bot.send_video(chat_id=message.chat.id, video=class_schedule_url, caption="برنامه کلاسی 🗓️, حذف و اضافه ➖➕, دروس ارائه شده ترم 📘, حضور و غیاب 👥")
+		bot.send_video(chat_id=message.chat.id, video=exam_schedule_url, caption="برنامه امتحانی 📝, اطلاعیه نمرات 🏆, تاییدیه ✅")
+		bot.send_video(chat_id=message.chat.id, video=teacher_evaluation_url, caption="ارزشیابی اساتید 👩‍🏫")
 
 	if message.text == "پژوهشی 🔬":
-		bot.send_video(chat_id=message.chat.id, video=book_loan_url, caption="Research")
+		bot.send_video(chat_id=message.chat.id, video=book_loan_url, caption="امانت و تمدید و رزرو 📚🔄")
 
 	if message.text == "دانشجویی 🧑‍🎓":
-		bot.send_video(chat_id=message.chat.id, video=meal_reservation_url, caption="Student Affairs 1")
-		bot.send_video(chat_id=message.chat.id, video=sports_services_url, caption="Student Affairs 2")
+		bot.send_video(chat_id=message.chat.id, video=meal_reservation_url, caption="امور تغذیه 🍽️")
+		bot.send_video(chat_id=message.chat.id, video=sports_services_url, caption="خدمات ورزشی 🏅")
 
 	if message.text == "مالی و پشتیبانی 💵":
-		bot.send_video(chat_id=message.chat.id, video=online_payment_url, caption="Financial & Support 1")
-		bot.send_video(chat_id=message.chat.id, video=portal_password_url, caption="Financial & Support 2")
+		bot.send_video(chat_id=message.chat.id, video=online_payment_url, caption="نحوه پرداخت الکترونیکی 💳")
+		bot.send_video(chat_id=message.chat.id, video=portal_password_url, caption="رمز اینترنت و پرتال 🔐")
 
 	if message.text == "سایر موارد 🌐":
-		bot.reply_to(message, "under construction")
+		bot.reply_to(message, "به زودی تکمیل می‌شود ⏳")
+
 		
 	if message.text == "انتقادات و پیشنهادات 💬":
 		bot.reply_to(message, suggestion_01, reply_markup=markup_06)
