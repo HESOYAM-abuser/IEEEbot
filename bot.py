@@ -1,247 +1,146 @@
 import telebot
 from telebot import types
-from telebot.types import ForceReply
-from time import sleep
-from re import findall
 from dotenv import load_dotenv
 import os
-import json
-import telebot.apihelper
-import socks
-import socket
-#====================================== 
+from helpers import statics  # Import the statics module
+# import socks
+# import socket
+from time import sleep
+
 load_dotenv()
 
-api_token = os.getenv("API_TOKEN")  
-TOKEN = api_token # Telegram token
-bot = telebot.TeleBot(TOKEN, parse_mode=None) 
-
+api_token = os.getenv("API_TOKEN")
+proxy_url = os.getenv("PROXY_URL")
 admins_id_list = os.getenv("ADMIN_IDS").split(",")
 
-proxy_url = os.getenv("PROXY_URL")
+bot = telebot.TeleBot(api_token, parse_mode=None)
 
-if proxy_url:
-    if proxy_url.startswith("socks5://"):
-        proxy_host, proxy_port = proxy_url[len("socks5://"):].split(":")
-        proxy_port = int(proxy_port)
+# if proxy_url and proxy_url.startswith("socks5://"):
+#     proxy_host, proxy_port = proxy_url[len("socks5://"):].split(":")
+#     socks.set_default_proxy(socks.SOCKS5, proxy_host, int(proxy_port))
+#     socket.socket = socks.socksocket  # Patch the socket module
 
-        # Set up the proxy
-        socks.set_default_proxy(socks.SOCKS5, proxy_host, proxy_port)
-        socket.socket = socks.socksocket  # Patch the socket module
-    else:
-        raise ValueError("Unsupported proxy scheme. Use 'socks5://host:port'.")
+def create_keyboard(button_list):
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    for row in button_list:
+        markup.row(*[types.KeyboardButton(button) for button in row])
+    return markup
 
-telebot.apihelper.proxy = {
-    "https": proxy_url,  
-    "http": proxy_url    
-}
-#======================================
-f = open("texts/suggestion_01.txt", "rb")
-suggestion_01 = f.read()
-f.close()
+main_menu = create_keyboard(statics.buttons["main_menu"])
+events_menu = create_keyboard(statics.buttons["events_menu"])
+guide_menu = create_keyboard(statics.buttons["guide_menu"])
+portal_menu = create_keyboard(statics.buttons["portal_menu"])
+cancel_menu = create_keyboard(statics.buttons["cancel_menu"])
 
-f = open("texts/suggestion_02.txt", "rb")
-suggestion_02 = f.read()
-f.close()
-
-f = open("texts/start.txt", "rb")
-start_text = f.read()
-f.close()
-
-f = open("texts/daneshjoo_rahnama.txt", "rb")
-daneshjoo_rahnama_text = f.read()
-f.close()
-
-f = open("texts/ieee.txt", "rb")
-ieee_text = f.read()
-f.close()
-
-f = open("texts/event.txt", "rb")
-event_text = f.read()
-f.close()
-
-f = open("texts/ertebat_ba_aza.txt", "rb")
-ertebat_ba_aza_text = f.read()
-f.close()
-
-f = open("texts/forsat_haye_hamkari.txt", "rb")
-forsat_haye_hamkari_text = f.read()
-f.close()
-
-f = open("texts/kanal_haye_mohem.txt", "rb")
-kanal_haye_mohem_text = f.read()
-f.close()
-
-f = open("texts/about_bot.txt", "rb")
-about_bot_text = f.read()
-f.close()
-#======================================
-# Load the JSON file
-with open("directory_links.json", "r") as file:
-    data = json.load(file)
-# Root directory links
-calendar_url = data["root"]["calendar.jpg"]
-course_chart_url = data["root"]["course_chart.pdf"]
-faculty_map_url = data["root"]["faculty_map.pdf"]
-introduction_video_url = data["root"]["introduction_video.mp4"]
-university_map_url = data["root"]["university_map.jpg"]
-# Portal directory links
-# Educational
-class_schedule_url = data["portal"]["educational"]["class_schedule.mp4"]
-educational_requests_url = data["portal"]["educational"]["educational_requests.mp4"]
-exam_schedule_url = data["portal"]["educational"]["exam_schedule.mp4"]
-teacher_evaluation_url = data["portal"]["educational"]["teacher_evaluation.mp4"]
-# Financial Support
-online_payment_url = data["portal"]["financial_support"]["online_payment.mp4"]
-portal_password_url = data["portal"]["financial_support"]["portal_password.mp4"]
-# Research
-book_loan_url = data["portal"]["research"]["book_loan.mp4"]
-# Student Affairs
-meal_reservation_url = data["portal"]["student_affairs"]["meal_reservation.mp4"]
-sports_services_url = data["portal"]["student_affairs"]["sports_services.mp4"]
-#======================================
-markup_00 = types.ReplyKeyboardMarkup(resize_keyboard=True)
-itembtna_00 = types.KeyboardButton('IEEE')
-itembtnb_00 = types.KeyboardButton('رویدادها 🗓️')
-itembtnc_00 = types.KeyboardButton('عضویت در IEEE 📝')
-itembtnd_00 = types.KeyboardButton('دانشجو راهنما 📚')
-itembtne_00 = types.KeyboardButton('ارتباط با اعضا 📞')
-itembtnf_00 = types.KeyboardButton('انتقادات و پیشنهادات 💬')
-itembtng_00 = types.KeyboardButton('درباره بات 🤖')
-markup_00.row(itembtna_00)
-markup_00.row(itembtnb_00, itembtnc_00)
-markup_00.row(itembtnd_00, itembtne_00)
-markup_00.row(itembtnf_00)
-markup_00.row(itembtng_00)
-
-markup_02 = types.ReplyKeyboardMarkup(resize_keyboard=True)
-itembtna_02 = types.KeyboardButton('رویداد های برگزار شده 📅')
-itembtnb_02 = types.KeyboardButton('رویداد های جاری 🔄')
-itembtnc_02 = types.KeyboardButton('بازگشت 🔙')
-markup_02.row(itembtnb_02, itembtna_02)
-markup_02.row(itembtnc_02)
-
-markup_04 = types.ReplyKeyboardMarkup(resize_keyboard=True)
-itembtna_04 = types.KeyboardButton("آموزش پرتال 📖")
-itembtnb_04 = types.KeyboardButton("چارت درسی 🗂️")
-itembtnc_04 = types.KeyboardButton("آخرین تقویم آموزشی 📆")
-itembtnd_04 = types.KeyboardButton("نقشه دانشگاه 🏫")
-itembtne_04 = types.KeyboardButton("نقشه دانشکده 🧭")
-itembtnf_04 = types.KeyboardButton("کانال های مهم دانشگاه 🔗")
-itembtng_04 = types.KeyboardButton('بازگشت 🔙')
-markup_04.row(itembtna_04)
-markup_04.row(itembtnb_04, itembtnc_04)
-markup_04.row(itembtnd_04, itembtne_04)
-markup_04.row(itembtnf_04)
-markup_04.row(itembtng_04)
-
-markup_05 = types.ReplyKeyboardMarkup(resize_keyboard=True)
-itembtna_05 = types.KeyboardButton("آموزشی 📚")
-itembtnb_05 = types.KeyboardButton("پژوهشی 🔬")
-itembtnc_05 = types.KeyboardButton("دانشجویی 🧑‍🎓")
-itembtnd_05 = types.KeyboardButton("مالی و پشتیبانی 💵")
-itembtne_05 = types.KeyboardButton("سایر موارد 🌐")
-itembtnf_05 = types.KeyboardButton("↩️")
-markup_05.row(itembtna_05, itembtnb_05)
-markup_05.row(itembtnc_05, itembtnd_05)
-markup_05.row(itembtne_05)
-markup_05.row(itembtnf_05)
-
-markup_06 = types.ReplyKeyboardMarkup(resize_keyboard=True)
-itembtna_06 = types.KeyboardButton("Cancel")
-markup_06.row(itembtna_06)
-#======================================
+#================================================
 @bot.message_handler(commands=['start', 'help'])
 def send_welcome(message):
-	bot.reply_to(message, start_text, reply_markup=markup_00)
+    bot.reply_to(message, statics.messages["start"], reply_markup=main_menu)
 
 @bot.message_handler(func=lambda m: True)
 def echo_all(message):
-	if message.text == "بازگشت 🔙":
-		bot.reply_to(message, "🏠", reply_markup=markup_00)
+    if message.text == statics.buttons["cancel_menu"][0][0]:  # "بازگشت 🔙" dynamically from statics
+        bot.reply_to(message, statics.messages["start"], reply_markup=main_menu)
 
-	if message.text == "IEEE":
-		bot.send_video(chat_id=message.chat.id, video=introduction_video_url)
-		bot.send_message(message.chat.id, ieee_text)
-		
-	if message.text == "رویدادها 🗓️":
-		bot.reply_to(message, event_text, reply_markup=markup_02)
-	
-	if message.text == "عضویت در IEEE 📝":
-		bot.reply_to(message, forsat_haye_hamkari_text)
+    elif message.text == statics.buttons["main_menu"][0][0]:  # "IEEE"
+        bot.send_video(chat_id=message.chat.id, video=statics.urls["root"]["introduction_video"])
+        bot.send_message(message.chat.id, statics.messages["ieee"])
 
-	if message.text == "دانشجو راهنما 📚" or message.text == "↩️":
-		bot.reply_to(message, daneshjoo_rahnama_text, reply_markup=markup_04)
+    elif message.text == statics.buttons["main_menu"][1][0]:  # "رویدادها 🗓️"
+        bot.reply_to(message, statics.messages["events"], reply_markup=events_menu)
+    
+    elif message.text == statics.buttons["main_menu"][1][1]:  # "عضویت در IEEE 📝"
+        bot.reply_to(message, statics.messages["join_ieee"])
 
-	if message.text == "ارتباط با اعضا 📞":
-		bot.reply_to(message, ertebat_ba_aza_text)
-	
-	if message.text == "رویداد های برگزار شده 📅":
-		bot.reply_to(message, ".به زودی تکمیل خواهد شد ")
+    elif message.text == statics.buttons["main_menu"][2][0]:  # "دانشجو راهنما 📚"
+        bot.reply_to(message, statics.messages["guide_student"], reply_markup=guide_menu)
 
-	if message.text == "رویداد های جاری 🔄":
-		bot.reply_to(message, ".به زودی تکمیل خواهد شد")
+    elif message.text == statics.buttons["main_menu"][2][1]:  # "ارتباط با اعضا 📞"
+        bot.reply_to(message, statics.messages["contact_members"])
+    
+    elif message.text == statics.buttons["main_menu"][3][0]:  # "انتقادات و پیشنهادات 💬"
+        bot.reply_to(message, statics.messages["suggestion"], reply_markup=cancel_menu)
+        bot.register_next_step_handler(message, suggestion)
 
-	if message.text == "آموزش پرتال 📖":
-		bot.reply_to(message, "گزیه مورد نظر خود را انتخاب کنید", reply_markup=markup_05)
+    elif message.text == statics.buttons["main_menu"][4][0]:  # "درباره بات 🤖"
+        bot.reply_to(message, statics.messages["about_bot"])
 
-	if message.text == "چارت درسی 🗂️":
-		bot.send_document(chat_id=message.chat.id, document=course_chart_url)
+    elif message.text == statics.buttons["events_menu"][0][0]:  # "رویداد های جاری 🔄"
+        bot.reply_to(message, statics.messages["current_events"])
 
-	if message.text == "آخرین تقویم آموزشی 📆":
-		bot.send_photo(chat_id=message.chat.id, photo=calendar_url)
+    elif message.text == statics.buttons["events_menu"][0][1]:  # "رویداد های برگزار شده 📅"
+        bot.reply_to(message, statics.messages["completed_events"])
 
-	if message.text == "نقشه دانشگاه 🏫":
-		bot.send_photo(chat_id=message.chat.id, photo=university_map_url)
+    elif message.text == statics.buttons["events_menu"][1][0]:  # "بازگشت 🔙"
+        bot.reply_to(message, statics.messages["start"], reply_markup=main_menu)
 
-	if message.text == "نقشه دانشکده 🧭":
-		bot.send_document(chat_id=message.chat.id, document=faculty_map_url)
+    elif message.text == statics.buttons["guide_menu"][0][0]:  # "آموزش پرتال 📖"
+        bot.reply_to(message, statics.messages["choose_portal_option"], reply_markup=portal_menu)
 
-	if message.text == "کانال های مهم دانشگاه 🔗":
-		bot.reply_to(message, kanal_haye_mohem_text)
+    elif message.text == statics.buttons["guide_menu"][1][0]:  # "چارت درسی 🗂️"
+        bot.send_document(chat_id=message.chat.id, document=statics.urls["root"]["course_chart"])
 
-	if message.text == "آموزشی 📚":
-		bot.send_video(chat_id=message.chat.id, video=class_schedule_url, caption="برنامه کلاسی 🗓️, حذف و اضافه ➖➕, دروس ارائه شده ترم 📘, حضور و غیاب 👥")
-		bot.send_video(chat_id=message.chat.id, video=exam_schedule_url, caption="برنامه امتحانی 📝, اطلاعیه نمرات 🏆, تاییدیه ✅")
-		bot.send_video(chat_id=message.chat.id, video=teacher_evaluation_url, caption="ارزشیابی اساتید 👩‍🏫")
+    elif message.text == statics.buttons["guide_menu"][1][1]:  # "آخرین تقویم آموزشی 📆"
+        bot.send_photo(chat_id=message.chat.id, photo=statics.urls["root"]["calendar"])
 
-	if message.text == "پژوهشی 🔬":
-		bot.send_video(chat_id=message.chat.id, video=book_loan_url, caption="امانت و تمدید و رزرو 📚🔄")
+    elif message.text == statics.buttons["guide_menu"][2][0]:  # "نقشه دانشگاه 🏫"
+        bot.send_photo(chat_id=message.chat.id, photo=statics.urls["root"]["university_map"])
 
-	if message.text == "دانشجویی 🧑‍🎓":
-		bot.send_video(chat_id=message.chat.id, video=meal_reservation_url, caption="امور تغذیه 🍽️")
-		bot.send_video(chat_id=message.chat.id, video=sports_services_url, caption="خدمات ورزشی 🏅")
+    elif message.text == statics.buttons["guide_menu"][2][1]:  # "نقشه دانشکده 🧭"
+        bot.send_document(chat_id=message.chat.id, document=statics.urls["root"]["faculty_map"])
 
-	if message.text == "مالی و پشتیبانی 💵":
-		bot.send_video(chat_id=message.chat.id, video=online_payment_url, caption="نحوه پرداخت الکترونیکی 💳")
-		bot.send_video(chat_id=message.chat.id, video=portal_password_url, caption="رمز اینترنت و پرتال 🔐")
+    elif message.text == statics.buttons["guide_menu"][3][0]:  # "کانال های مهم دانشگاه 🔗"
+        bot.reply_to(message, statics.messages["important_channels"])
 
-	if message.text == "سایر موارد 🌐":
-		bot.reply_to(message, "به زودی تکمیل می‌شود ⏳")
+    elif message.text == statics.buttons["guide_menu"][4][0]:  # "بازگشت 🔙"
+        bot.reply_to(message, statics.messages["start"], reply_markup=main_menu)
 
-		
-	if message.text == "انتقادات و پیشنهادات 💬":
-		bot.reply_to(message, suggestion_01, reply_markup=markup_06)
-		bot.register_next_step_handler(message, suggestion)
+    elif message.text == statics.buttons["portal_menu"][0][0]:  # "آموزشی 📚"
+        bot.send_video(chat_id=message.chat.id, video=statics.urls["portal"]["educational"]["class_schedule"],
+                       caption=statics.captions["class_schedule"])
+        bot.send_video(chat_id=message.chat.id, video=statics.urls["portal"]["educational"]["exam_schedule"],
+                       caption=statics.captions["exam_schedule"])
+        bot.send_video(chat_id=message.chat.id, video=statics.urls["portal"]["educational"]["teacher_evaluation"],
+                       caption=statics.captions["teacher_evaluation"])
 
-	if message.text == 'درباره بات 🤖':
-		bot.reply_to(message, about_bot_text)
+    elif message.text == statics.buttons["portal_menu"][0][1]:  # "پژوهشی 🔬"
+        bot.send_video(chat_id=message.chat.id, video=statics.urls["portal"]["research"]["book_loan"],
+                       caption=statics.captions["book_loan"])
 
+    elif message.text == statics.buttons["portal_menu"][1][0]:  # "دانشجویی 🧑‍🎓"
+        bot.send_video(chat_id=message.chat.id, video=statics.urls["portal"]["student_affairs"]["meal_reservation"],
+                       caption=statics.captions["meal_reservation"])
+        bot.send_video(chat_id=message.chat.id, video=statics.urls["portal"]["student_affairs"]["sports_services"],
+                       caption=statics.captions["sports_services"])
+
+    elif message.text == statics.buttons["portal_menu"][1][1]:  # "مالی و پشتیبانی 💵"
+        bot.send_video(chat_id=message.chat.id, video=statics.urls["portal"]["financial_support"]["online_payment"],
+                       caption=statics.captions["online_payment"])
+        bot.send_video(chat_id=message.chat.id, video=statics.urls["portal"]["financial_support"]["portal_password"],
+                       caption=statics.captions["portal_password"])
+
+    elif message.text == statics.buttons["portal_menu"][2][0]:  # "سایر موارد 🌐"
+        bot.reply_to(message, statics.messages["other_cases"])
+
+    elif message.text == statics.buttons["portal_menu"][3][0]:  # "↩️"
+        bot.reply_to(message, statics.messages["start"], reply_markup=main_menu)
+        
 def suggestion(message):
 	suggestion_text = message.text
-	if suggestion_text == "Cancel":
-		bot.reply_to(message, "Canceled", reply_markup=markup_00)
+	if suggestion_text == statics.buttons["cancel_menu"][0][0]:
+		bot.reply_to(message, statics.messages["suggestion_cancelled"], reply_markup=main_menu)
 		return
 	try: 
 		for id in admins_id_list:
-			bot.send_message(id, "NEW SUGGESTION:\n\n"+suggestion_text)
+			bot.send_message(id, statics.messages["new_suggestion"]+suggestion_text)
 	except:
 		pass
-	bot.reply_to(message, suggestion_02, reply_markup=markup_00)
-#======================================
+	bot.reply_to(message, statics.messages["suggestion_received"], reply_markup=main_menu)
+#================================================
 if __name__ == "__main__":
-	while True:
-		try:
-			bot.infinity_polling()
-		except:
-			sleep(5)
+    while True:
+        try:
+            bot.infinity_polling()
+        except Exception as e:
+            print(f"Error: {e}")
+            sleep(5)
