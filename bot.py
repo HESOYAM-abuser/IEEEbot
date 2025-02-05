@@ -2,23 +2,15 @@ import telebot
 from telebot import types
 from dotenv import load_dotenv
 import os
-from helpers import statics  # Import the statics module
-# import socks
-# import socket
+from helpers import statics 
 from time import sleep
 
 load_dotenv()
 
 api_token = os.getenv("API_TOKEN")
-proxy_url = os.getenv("PROXY_URL")
 admins_id_list = os.getenv("ADMIN_IDS").split(",")
 
 bot = telebot.TeleBot(api_token, parse_mode=None)
-
-# if proxy_url and proxy_url.startswith("socks5://"):
-#     proxy_host, proxy_port = proxy_url[len("socks5://"):].split(":")
-#     socks.set_default_proxy(socks.SOCKS5, proxy_host, int(proxy_port))
-#     socket.socket = socks.socksocket  # Patch the socket module
 
 def create_keyboard(button_list):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
