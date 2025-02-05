@@ -4,6 +4,10 @@ WORKDIR /app
 
 COPY . .
 
+RUN apt-get update && \
+    apt-get install -y proxychains4 && \
+    chmod +x /app/entrypoint.sh
+
 RUN pip install --no-cache-dir -r requirements.txt
 
-CMD ["python", "bot.py"]
+ENTRYPOINT ["/app/entrypoint.sh"]
