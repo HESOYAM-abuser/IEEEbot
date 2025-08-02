@@ -10,6 +10,17 @@ load_dotenv()
 api_token = os.getenv("API_TOKEN")
 admins_id_list = os.getenv("ADMIN_IDS").split(",")
 
+USE_HTTP_PROXY = os.getenv("USE_HTTP_PROXY", "false").lower() == "true"
+PROXY_DOMAIN = os.getenv("PROXY_URL")
+PROXY_PORT = os.getenv("PROXY_PORT")
+
+if USE_HTTP_PROXY and PROXY_DOMAIN and PROXY_PORT:
+    proxy_url = f"{PROXY_DOMAIN}:{PROXY_PORT}"
+    telebot.apihelper.proxy = {
+        'http': proxy_url,
+        'https': proxy_url,
+    }
+
 bot = telebot.TeleBot(api_token, parse_mode=None)
 
 def create_keyboard(button_list):

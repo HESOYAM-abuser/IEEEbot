@@ -1,13 +1,11 @@
-FROM python:3.10-slim
+kkFROM python:3.13.5-bookworm
 
 WORKDIR /app
 
-COPY . .
+COPY requirement.txt .
+RUN pip install --no-cache-dir -r requirement.txt
 
-RUN apt-get update && \
-    apt-get install -y proxychains4 && \
-    chmod +x /app/entrypoint.sh
+COPY bot ./bot
+COPY .env ./.env
 
-RUN pip install --no-cache-dir -r requirements.txt
-
-ENTRYPOINT ["/app/entrypoint.sh"]
+CMD ["python", "bot/bot.py"]
