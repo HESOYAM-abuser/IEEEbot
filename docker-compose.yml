@@ -1,7 +1,7 @@
 services:
   anon-music-bot:
     build: .
-    container_name: anon-music-bot
+    container_name: ieee-telegram-bot
     restart: unless-stopped
     env_file:
       - .env
